@@ -3,8 +3,8 @@ package AirTrafficSimulator;
 import java.awt.*;
 
 public class CountdownDialog extends Dialog {
-    private Label warningLab, msgLab;
-    private Button okBtn;
+    private Label warningLabel;
+    private Button okButton;
     private boolean confirmed = false;
 
     CountdownDialog(Frame parentFrame) {
@@ -15,7 +15,7 @@ public class CountdownDialog extends Dialog {
 
         populateWindow();
 
-        okBtn.addActionListener( e -> {
+        okButton.addActionListener( e -> {
             confirmed = true;
             dispose();
         });
@@ -24,16 +24,16 @@ public class CountdownDialog extends Dialog {
     }
 
     private void populateWindow() {
-        warningLab = new Label("Application will close in: ");
-        msgLab = new Label("Press <OK> to stay logged in. ");
-        okBtn = new Button("OK");
+        warningLabel = new Label("Application will close in: ");
+        Label msgLab = new Label("Press <OK> to stay logged in. ");
+        okButton = new Button("OK");
 
         Panel buttonPanel = new Panel(new FlowLayout(FlowLayout.CENTER));
-        buttonPanel.add(okBtn);
+        buttonPanel.add(okButton);
         add(buttonPanel, BorderLayout.SOUTH);
 
         Panel labelPanel = new Panel(new GridLayout(2, 1));
-        labelPanel.add(warningLab);
+        labelPanel.add(warningLabel);
         labelPanel.add(msgLab);
         add(labelPanel, BorderLayout.CENTER);
     }
@@ -44,9 +44,9 @@ public class CountdownDialog extends Dialog {
                 for (int i = 5; i > 0; i--) {
                     final int second = i;
                     EventQueue.invokeLater(() ->
-                            warningLab.setText("Application will close in: " + second + " seconds...")
+                            warningLabel.setText("Application will close in: " + second + " seconds...")
                     );
-                    warningLab.revalidate();
+                    warningLabel.revalidate();
                     Thread.sleep(1000);
                 }
                 dispose();

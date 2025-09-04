@@ -14,12 +14,19 @@ public class MainFrame extends Frame {
         setBounds(500, 200, 870, 560);
         setResizable(false);
 
+        populateWindow();
+
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
                 controller.quit();
             }
         });
+
+        Toolkit.getDefaultToolkit().addAWTEventListener(e -> {
+            controller.userTimer.reset();
+        }, AWTEvent.MOUSE_EVENT_MASK | AWTEvent.KEY_EVENT_MASK);
+
         setVisible(true);
     }
 
@@ -119,6 +126,5 @@ public class MainFrame extends Frame {
 
     public static void main(String[] args) {
         MainFrame mainFrame = new MainFrame();
-        mainFrame.populateWindow();
     }
 }

@@ -1,5 +1,8 @@
 package AirTrafficSimulator;
 
+import java.awt.*;
+import java.io.File;
+
 public class Controller {
     private MainFrame mainFrame;
     Timer userTimer;
@@ -27,5 +30,7 @@ public class Controller {
         mainFrame.dispose();
         userTimer.interrupt();
     }
+
+
 
 }
