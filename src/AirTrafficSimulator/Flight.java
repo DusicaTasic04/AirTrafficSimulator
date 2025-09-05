@@ -7,7 +7,7 @@ public class Flight extends Figure {
     private Time departureTime;
     private int duration;
 
-    public Flight(Airport from, Airport to, int duration) {
+    public Flight(Airport from, Airport to, Time departureTime, int duration) {
 
     }
 

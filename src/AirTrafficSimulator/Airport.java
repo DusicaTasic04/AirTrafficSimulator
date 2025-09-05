@@ -12,15 +12,15 @@ public class Airport extends Figure {
         setY(y);
     }
 
-    private String getName() {
+    public String getName() {
         return name;
     }
 
-    private double getX() {
+    public double getX() {
         return x;
     }
 
-    private double getY() {
+    public double getY() {
         return y;
     }
 
@@ -40,6 +40,23 @@ public class Airport extends Figure {
             throw new IllegalArgumentException();
         }
         this.y = y;
+    }
+
+    @Override
+    public boolean equals (Object other) {
+        if (other == null)
+            return false;
+        if (other.getClass() != this.getClass())
+            return  false;
+        if (other == this)
+            return true;
+        Airport airport = (Airport) other;
+        return airport.getName().equals(this.getName());
+    }
+
+    @Override
+    public int hashCode() {
+        return name.hashCode();
     }
 
     @Override

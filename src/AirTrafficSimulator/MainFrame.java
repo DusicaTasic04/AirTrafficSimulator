@@ -25,7 +25,7 @@ public class MainFrame extends Frame {
 
         Toolkit.getDefaultToolkit().addAWTEventListener(e -> {
             controller.userTimer.reset();
-        }, AWTEvent.MOUSE_EVENT_MASK | AWTEvent.KEY_EVENT_MASK);
+        },  AWTEvent.MOUSE_EVENT_MASK | AWTEvent.KEY_EVENT_MASK);
 
         setVisible(true);
     }
@@ -52,6 +52,7 @@ public class MainFrame extends Frame {
         Menu show = new Menu("Show");
 
         MenuItem openFlight =  new MenuItem("Flight");
+        openFlight.addActionListener(e -> controller.importFlights());
         MenuItem saveFlight =  new MenuItem("Flight");
         MenuItem showFlight =  new MenuItem("Flight");
 

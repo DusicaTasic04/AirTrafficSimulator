@@ -5,13 +5,12 @@ import java.nio.file.FileSystemNotFoundException;
 
 public class ImportFileHandler extends FileDialogHandler {
 
-    public ImportFileHandler(Frame parentFrame, int mode) {
+    public ImportFileHandler(Frame parentFrame) {
         super(parentFrame, "Import file", FileDialog.LOAD);
     }
 
     @Override
     protected void fileIsNullException() {
-        ExceptionDialog ed = new ExceptionDialog(parentFrame);
-        throw new FileSystemNotFoundException();
+        throw new NullPointerException();
     }
 }

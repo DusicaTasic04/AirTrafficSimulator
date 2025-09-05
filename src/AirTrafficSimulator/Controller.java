@@ -2,6 +2,7 @@ package AirTrafficSimulator;
 
 import java.awt.*;
 import java.io.File;
+import java.util.logging.FileHandler;
 
 public class Controller {
     private MainFrame mainFrame;
@@ -11,6 +12,18 @@ public class Controller {
         this.mainFrame = mainFrame;
         userTimer = new Timer(mainFrame);
         userTimer.start();
+        userTimer.go();
+    }
+
+    public void importFlights() {
+        userTimer.pause();
+        try {
+            ImportFileHandler importFile = new ImportFileHandler(mainFrame);
+            importFile.showDialog();
+        }
+        catch (Exception e) {
+            new ExceptionDialog(mainFrame, "<Cancel> pressed or file not found. ");
+        }
         userTimer.go();
     }
 
@@ -30,7 +43,4 @@ public class Controller {
         mainFrame.dispose();
         userTimer.interrupt();
     }
-
-
-
 }

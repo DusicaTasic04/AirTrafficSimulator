@@ -6,13 +6,18 @@ import java.awt.event.WindowEvent;
 
 public class ExceptionDialog extends Dialog {
     Label messageLabel;
-    Button okButton;
+    Button okButton = new Button("OK");
 
-    public ExceptionDialog(Frame parent) {
+    public ExceptionDialog(Frame parent, String message) {
         super(parent, "Error", true);
         setResizable(false);
         setSize(300, 100);
+        setLocationRelativeTo(parent);
+
         messageLabel = new Label("Something went wrong. ");
+        setMessage(message);
+
+        populateWindow();
 
         final Dialog self = this;
         addWindowListener(new WindowAdapter() {
@@ -22,9 +27,9 @@ public class ExceptionDialog extends Dialog {
             }
         });
 
-        okButton.addActionListener( e -> {
-            self.dispose();
-        });
+        okButton.addActionListener( e -> self.dispose());
+
+        setVisible(true);
     }
 
     private void populateWindow() {
@@ -38,6 +43,6 @@ public class ExceptionDialog extends Dialog {
     }
 
     public void setMessage(String msg) {
-        messageLabel.setText(msg);
+        if (msg != null) messageLabel.setText(msg);
     }
 }
