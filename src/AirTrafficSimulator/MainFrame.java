@@ -3,17 +3,23 @@ package AirTrafficSimulator;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Vector;
 
 public class MainFrame extends Frame {
     Label time = new Label();
     Panel centralPanel = new Panel();
     Controller controller = new Controller(this);
+    private Panel checkboxesPanel;
+    private ScrollPane scrollPane;
+
+    public Scene scene = new Scene(this);
 
     public MainFrame() {
         setTitle("Air Traffic Simulator");
         setBounds(500, 200, 870, 560);
         setResizable(false);
 
+        Simulation.getInstance().setFrame(this);
         populateWindow();
 
         addWindowListener(new WindowAdapter() {
@@ -23,14 +29,19 @@ public class MainFrame extends Frame {
             }
         });
 
-        Toolkit.getDefaultToolkit().addAWTEventListener(e -> {
-            controller.userTimer.reset();
-        },  AWTEvent.MOUSE_EVENT_MASK | AWTEvent.KEY_EVENT_MASK);
+        Toolkit.getDefaultToolkit().addAWTEventListener(e ->
+                controller.userTimer.reset(),  AWTEvent.ACTION_EVENT_MASK | AWTEvent.KEY_EVENT_MASK);
 
         setVisible(true);
     }
 
     private void populateWindow() {
+        setMenuBar();
+        setScene();
+        setCheckboxes();
+    }
+
+    private void setMenuBar() {
         Menu file = getFileMenu();
         Menu edit = getEditMenu();
         Menu simulation = getSimulationMenu();
@@ -54,10 +65,14 @@ public class MainFrame extends Frame {
         MenuItem openFlight =  new MenuItem("Flight");
         openFlight.addActionListener(e -> controller.importFlights());
         MenuItem saveFlight =  new MenuItem("Flight");
+        saveFlight.addActionListener(e -> controller.exportFlights());
         MenuItem showFlight =  new MenuItem("Flight");
+        showFlight.addActionListener(e -> controller.showFlights());
 
         MenuItem openAirport =  new MenuItem("Airport");
+        openAirport.addActionListener(e -> controller.importAirports());
         MenuItem saveAirport =  new MenuItem("Airport");
+        saveAirport.addActionListener(e -> controller.exportAirports());
 
         open.add(openFlight);
         open.add(openAirport);
@@ -76,20 +91,15 @@ public class MainFrame extends Frame {
         Menu edit = new Menu("Edit");
 
         Menu newItem = new Menu("New");
-        Menu deleteItem = new Menu("Delete");
-
         edit.add(newItem);
-        edit.add(deleteItem);
 
         MenuItem newFlight = new MenuItem("Flight");
+        newFlight.addActionListener(e -> controller.addFlight());
         MenuItem newAirport = new MenuItem("Airport");
-        MenuItem deleteFlight = new MenuItem("Flight");
-        MenuItem deleteAirport = new MenuItem("Airport");
+        newAirport.addActionListener(e -> controller.addAirport());
 
         newItem.add(newFlight);
         newItem.add(newAirport);
-        deleteItem.add(deleteFlight);
-        deleteItem.add(deleteAirport);
 
         return edit;
     }
@@ -123,6 +133,47 @@ public class MainFrame extends Frame {
         settings.add(quit);
 
         return settings;
+    }
+
+    private void setScene() {
+        int width = (getWidth() * 2 / 3) / scene.getRows() * scene.getRows();
+        int height = (getHeight() * 4 / 5) / scene.getRows() * scene.getRows();
+        scene.setPreferredSize(new Dimension(width, height));
+        centralPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 60, 25));
+        centralPanel.add(scene);
+        add(centralPanel);
+        add(centralPanel, BorderLayout.WEST);
+    }
+
+    private void setCheckboxes() {
+        checkboxesPanel = new Panel(new GridLayout(0, 1, 0, 5));
+        checkboxesPanel.setPreferredSize(new Dimension(150, 0));
+
+        scrollPane = new ScrollPane(ScrollPane.SCROLLBARS_AS_NEEDED);
+        scrollPane.add(checkboxesPanel);
+
+        scrollPane.setPreferredSize(new Dimension(150, 400));
+        add(scrollPane, BorderLayout.EAST);
+    }
+
+    public void addCheckBox(Airport a) {
+        Checkbox cb = new Checkbox(a.getCode() + " - " + a.getName() +
+                " (" + a.getX() + ", " + a.getY() + ")", true);
+        cb.addItemListener(e -> controller.switchAirportVisibility(a));
+        checkboxesPanel.add(cb);
+
+        FontMetrics fm = cb.getFontMetrics(cb.getFont());
+        int textWidth = fm.stringWidth(cb.getLabel()) + 20;
+
+        int currentWidth = (int) checkboxesPanel.getPreferredSize().getWidth();
+        int newWidth = Math.max(currentWidth, textWidth);
+
+        checkboxesPanel.setPreferredSize(
+                new Dimension(newWidth, checkboxesPanel.getComponentCount() * 25)
+        );
+
+        checkboxesPanel.revalidate();
+        checkboxesPanel.repaint();
     }
 
     public static void main(String[] args) {

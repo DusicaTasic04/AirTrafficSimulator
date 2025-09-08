@@ -18,13 +18,62 @@ public class Controller {
     public void importFlights() {
         userTimer.pause();
         try {
-            ImportFileHandler importFile = new ImportFileHandler(mainFrame);
-            importFile.showDialog();
+            File file = new ImportFileHandler(mainFrame).showDialog();
+            new FlightFileReader(mainFrame).readFile(file);
         }
         catch (Exception e) {
             new ExceptionDialog(mainFrame, "<Cancel> pressed or file not found. ");
         }
         userTimer.go();
+    }
+
+    public void importAirports() {
+        userTimer.pause();
+        try {
+            File file = new ImportFileHandler(mainFrame).showDialog();
+            new AirportFileReader(mainFrame).readFile(file);
+        }
+        catch (Exception e) {
+            new ExceptionDialog(mainFrame, "<Cancel> pressed or file not found. ");
+        }
+        mainFrame.scene.repaint();
+        userTimer.go();
+    }
+
+    public void exportFlights() {
+        userTimer.pause();
+        new ExportFileHandler(mainFrame).exportFlights();
+        userTimer.go();
+    }
+
+    public void exportAirports() {
+        userTimer.pause();
+        new  ExportFileHandler(mainFrame).exportAirports();
+        userTimer.go();
+    }
+
+    public void addFlight() {
+        userTimer.pause();
+        new NewFlightDialog(mainFrame);
+        userTimer.go();
+    }
+
+    public void showFlights() {
+        userTimer.pause();
+        new ShowFlightDialog(mainFrame);
+        userTimer.go();
+    }
+
+    public void addAirport() {
+        userTimer.pause();
+        new NewAirportDialog(mainFrame);
+        mainFrame.scene.repaint();
+        userTimer.go();
+    }
+
+    public void switchAirportVisibility(Airport a) {
+        a.setVisible(!a.isVisible());
+        mainFrame.scene.repaint();
     }
 
     public void switchTimer() {

@@ -8,11 +8,67 @@ public class Flight extends Figure {
     private int duration;
 
     public Flight(Airport from, Airport to, Time departureTime, int duration) {
+        super(from.getX(), from.getY());
+        setFrom(from);
+        setTo(to);
+        setDepartureTime(departureTime);
+        setDuration(duration);
+    }
 
+    public Airport getFrom() {
+        return from;
+    }
+
+    public Airport getTo() {
+        return to;
+    }
+
+    public Time getDepartureTime() {
+        return departureTime;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setFrom(Airport from) {
+        if  (from == null) {
+            throw new IllegalArgumentException();
+        }
+        this.from = from;
+    }
+
+    public void setTo(Airport to) {
+        if (to == null) {
+            throw new IllegalArgumentException();
+        }
+        this.to = to;
+    }
+
+    public void setDepartureTime(Time departureTime) {
+        if (departureTime == null) {
+            throw new IllegalArgumentException();
+        }
+        this.departureTime = departureTime;
+    }
+
+    public void setDuration(int duration) {
+        if (duration <= 0) {
+            throw new IllegalArgumentException();
+        }
+        this.duration = duration;
     }
 
     @Override
-    void draw(Graphics g) {
+    public String toString() {
+        return from.getName() + " -> " + to.getName() + " | " + departureTime.toString() + " | " + duration + " min ";
+    }
 
+    @Override
+    void paint(Graphics g, int px, int py) {
+        Color prevColor = g.getColor();
+        g.setColor(new Color(0, 60, 125));
+        g.fillOval(px - size/2, py - size/2, size, size);
+        g.setColor(prevColor);
     }
 }

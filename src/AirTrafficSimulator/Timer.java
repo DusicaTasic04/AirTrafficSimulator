@@ -3,9 +3,10 @@ package AirTrafficSimulator;
 import java.awt.*;
 
 public class Timer extends Thread {
-    private Time time;
+    private final Time time;
     private boolean running;
     private final MainFrame mainFrame;
+    private final static int total = 10;
 
     Timer(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
@@ -14,6 +15,7 @@ public class Timer extends Thread {
 
     public void run() {
         try {
+            CountdownDialog cd = null;
             while (!isInterrupted()) {
                 synchronized (this) {
                     while (!running) {
@@ -23,18 +25,26 @@ public class Timer extends Thread {
                 //noinspection BusyWait
                 sleep(1000);
                 time.addSecond();
-                if (time.second == 5) {
-                    CountdownDialog cd = new CountdownDialog(mainFrame);
+                int remaining = total - time.second;
+                if (remaining == 5) {
+                    cd = new CountdownDialog(mainFrame);
                     cd.setVisible(true);
-                    if (cd.isConfirmed()) {
-                        time.reset();
-                    } else {
-                        EventQueue.invokeLater(() -> {
-                            if (mainFrame != null) {
-                                mainFrame.dispose();
-                            }
-                        });
-                        break;
+                }
+                if (remaining <= 5 && cd != null) {
+                    cd.setWarningLabel("Application will close in " + remaining + " seconds");
+                    if (remaining == 0) {
+                        if (!cd.isConfirmed()) {
+                            EventQueue.invokeLater(() -> {
+                                if (mainFrame != null) {
+                                    mainFrame.dispose();
+                                }
+                            });
+                            break;
+                        } else {
+                            time.reset();
+                            cd.dispose();
+                            cd = null;
+                        }
                     }
                 }
             }

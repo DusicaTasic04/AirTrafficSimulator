@@ -8,7 +8,7 @@ public class CountdownDialog extends Dialog {
     private boolean confirmed = false;
 
     CountdownDialog(Frame parentFrame) {
-        super(parentFrame, "WARNING!", true);
+        super(parentFrame, "WARNING!");
         setResizable(false);
         setSize(300, 100);
         setLocationRelativeTo(parentFrame);
@@ -20,7 +20,10 @@ public class CountdownDialog extends Dialog {
             dispose();
         });
 
-        countdown();
+        Toolkit.getDefaultToolkit().addAWTEventListener(e -> {
+            confirmed = true;
+            dispose();
+        },  AWTEvent.ACTION_EVENT_MASK | AWTEvent.KEY_EVENT_MASK);
     }
 
     private void populateWindow() {
@@ -38,20 +41,9 @@ public class CountdownDialog extends Dialog {
         add(labelPanel, BorderLayout.CENTER);
     }
 
-    private void countdown() {
-        new Thread(() -> {
-            try {
-                for (int i = 5; i > 0; i--) {
-                    final int second = i;
-                    EventQueue.invokeLater(() ->
-                            warningLabel.setText("Application will close in: " + second + " seconds...")
-                    );
-                    warningLabel.revalidate();
-                    Thread.sleep(1000);
-                }
-                dispose();
-            } catch (InterruptedException ignored) {}
-        }).start();
+    public void setWarningLabel(String warning) {
+        warningLabel.setText(warning);
+        warningLabel.revalidate();
     }
 
     public boolean isConfirmed() {

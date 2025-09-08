@@ -2,20 +2,22 @@ package AirTrafficSimulator;
 
 import java.awt.*;
 import java.io.File;
+import java.io.IOException;
 
 public abstract class FileDialogHandler {
+    protected FileDialog fd;
     protected Frame parentFrame;
     protected String title;
     protected int mode;
 
-    public FileDialogHandler(Frame parentFrame, String title, int mode) {
+    protected FileDialogHandler(Frame parentFrame, String title, int mode) {
         this.parentFrame = parentFrame;
         this.title = title;
         this.mode = mode;
+        fd = new FileDialog(parentFrame, title, mode);
     }
 
-    public File showDialog() {
-        FileDialog fd = new FileDialog(parentFrame, title, mode);
+    public File showDialog() throws IOException{
         fd.setLocationRelativeTo(parentFrame);
         fd.setVisible(true);
 
@@ -23,12 +25,9 @@ public abstract class FileDialogHandler {
         String file = fd.getFile();
 
         if (file == null) {
-            fileIsNullException();
-            return null;
+            throw new IOException();
         }
 
         return new File(directory, file);
     }
-
-    protected abstract void fileIsNullException();
 }

@@ -3,7 +3,46 @@ package AirTrafficSimulator;
 import java.awt.*;
 
 public abstract class Figure {
-    Figure() {}
+    protected double x, y;
+    int size = 15;
+    boolean visible = true;
 
-    abstract void draw(Graphics g);
+    Figure(double x, double y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public void setX(double x) {
+        this.x = x;
+    }
+
+    public void setY(double y) {
+        this.y = y;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
+    }
+
+    abstract void paint(Graphics g, int px, int py);
 }

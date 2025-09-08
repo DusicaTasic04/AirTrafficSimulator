@@ -5,16 +5,17 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class ExceptionDialog extends Dialog {
-    Label messageLabel;
+    TextArea messageTextArea;
     Button okButton = new Button("OK");
 
     public ExceptionDialog(Frame parent, String message) {
         super(parent, "Error", true);
         setResizable(false);
         setSize(300, 100);
-        setLocationRelativeTo(parent);
 
-        messageLabel = new Label("Something went wrong. ");
+        messageTextArea = new TextArea("Something went wrong. ", 5, 30, TextArea.SCROLLBARS_VERTICAL_ONLY);
+        messageTextArea.setEditable(false);
+        messageTextArea.setFocusable(false);
         setMessage(message);
 
         populateWindow();
@@ -29,6 +30,8 @@ public class ExceptionDialog extends Dialog {
 
         okButton.addActionListener( e -> self.dispose());
 
+        pack();
+        setLocationRelativeTo(parent);
         setVisible(true);
     }
 
@@ -37,12 +40,12 @@ public class ExceptionDialog extends Dialog {
         buttonPanel.add(okButton);
         add(buttonPanel, BorderLayout.SOUTH);
 
-        Panel labelPanel = new Panel(new GridLayout(2, 1));
-        labelPanel.add(messageLabel);
-        add(labelPanel, BorderLayout.CENTER);
+        Panel textAreaPanel = new Panel(new GridLayout(1, 1));
+        textAreaPanel.add(messageTextArea);
+        add(textAreaPanel, BorderLayout.CENTER);
     }
 
     public void setMessage(String msg) {
-        if (msg != null) messageLabel.setText(msg);
+        if (msg != null) messageTextArea.setText(msg);
     }
 }
