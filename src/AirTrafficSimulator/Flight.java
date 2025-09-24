@@ -4,7 +4,7 @@ import java.awt.*;
 
 public class Flight extends Figure {
     private Airport from, to;
-    private Time departureTime;
+    private Time departureTime, departureTimeDelayed;
     private int duration;
 
     public Flight(Airport from, Airport to, Time departureTime, int duration) {
@@ -12,6 +12,7 @@ public class Flight extends Figure {
         setFrom(from);
         setTo(to);
         setDepartureTime(departureTime);
+        setDepartureTimeDelayed(new Time(departureTime));
         setDuration(duration);
     }
 
@@ -25,6 +26,10 @@ public class Flight extends Figure {
 
     public Time getDepartureTime() {
         return departureTime;
+    }
+
+    public Time  getDepartureTimeDelayed() {
+        return departureTimeDelayed;
     }
 
     public int getDuration() {
@@ -52,6 +57,10 @@ public class Flight extends Figure {
         this.departureTime = departureTime;
     }
 
+    public void setDepartureTimeDelayed(Time departureTimeDelayed) {
+        this.departureTimeDelayed = departureTimeDelayed;
+    }
+
     public void setDuration(int duration) {
         if (duration <= 0) {
             throw new IllegalArgumentException();
@@ -61,7 +70,7 @@ public class Flight extends Figure {
 
     @Override
     public String toString() {
-        return from.getName() + " -> " + to.getName() + " | " + departureTime.toString() + " | " + duration + " min ";
+        return from.getName() + " -> " + to.getName() + " | " + departureTimeDelayed.toString() + " | " + duration + " min ";
     }
 
     @Override

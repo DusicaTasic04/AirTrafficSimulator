@@ -91,5 +91,6 @@ public class Controller {
     public void quit() {
         mainFrame.dispose();
         userTimer.interrupt();
+        mainFrame.scene.airportHighlighter.stopFlicker();
     }
 }

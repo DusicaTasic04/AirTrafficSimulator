@@ -28,8 +28,10 @@ public class ShowFlightDialog extends Dialog {
         textArea.setEditable(false);
         textArea.setFocusable(false);
 
-        for (Flight flight : Simulation.getInstance().flights) {
-            textArea.append(flight.toString() + "\n");
+        for (Airport airport : Simulation.getInstance().airports.values()) {
+            for (Flight flight : airport.getScheduler()) {
+                textArea.append(flight.toString() + "\n");
+            }
         }
 
         add(textArea);

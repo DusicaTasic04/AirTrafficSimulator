@@ -25,7 +25,7 @@ public class Timer extends Thread {
                 //noinspection BusyWait
                 sleep(1000);
                 time.addSecond();
-                int remaining = total - time.second;
+                int remaining = total - time.getSeconds();
                 if (remaining == 5) {
                     cd = new CountdownDialog(mainFrame);
                     cd.setVisible(true);
@@ -36,7 +36,7 @@ public class Timer extends Thread {
                         if (!cd.isConfirmed()) {
                             EventQueue.invokeLater(() -> {
                                 if (mainFrame != null) {
-                                    mainFrame.dispose();
+                                    mainFrame.controller.quit();
                                 }
                             });
                             break;
@@ -70,6 +70,6 @@ public class Timer extends Thread {
     }
 
     public String toString() {
-        return String.format("%02d:%02d", time.minute, time.second);
+        return String.format("%02d:%02d", time.getMinutes(), time.getSeconds());
     }
 }

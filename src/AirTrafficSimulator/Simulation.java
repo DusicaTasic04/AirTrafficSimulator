@@ -1,16 +1,13 @@
 package AirTrafficSimulator;
 
 import java.util.HashMap;
-import java.util.Vector;
 
 public class Simulation {
     private static final Simulation instance = new Simulation();
     MainFrame frame;
-    Vector<Flight> flights;
     HashMap<String, Airport> airports;
 
     private Simulation() {
-        flights = new Vector<>();
         airports = new HashMap<>();
     }
 
@@ -36,7 +33,8 @@ public class Simulation {
         if (flight.getFrom().getCode().equals(flight.getTo().getCode())) {
             throw new IllegalArgumentException("Airport From and To cannot be same");
         }
-        flights.add(flight);
+        flight.getFrom().getScheduler().schedule(flight);
+        System.out.println("Real departure time: " + flight.getDepartureTimeDelayed());
     }
 
     public static Simulation getInstance() {

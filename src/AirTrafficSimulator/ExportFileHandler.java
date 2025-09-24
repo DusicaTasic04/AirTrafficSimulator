@@ -54,10 +54,12 @@ public class ExportFileHandler extends FileDialogHandler {
             return;
         }
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
-            for (Flight flight : Simulation.getInstance().flights) {
-                String line = flight.getFrom().getCode() + "," + flight.getTo().getCode() + "," + flight.getDepartureTime() + "," + flight.getDuration();
-                writer.write(line);
-                writer.newLine();
+            for (Airport airport : Simulation.getInstance().airports.values()) {
+                for (Flight flight : airport.getScheduler()) {
+                    String line = flight.getFrom().getCode() + "," + flight.getTo().getCode() + "," + flight.getDepartureTime() + "," + flight.getDuration();
+                    writer.write(line);
+                    writer.newLine();
+                }
             }
         } catch (IOException e) {
             new ExceptionDialog(parentFrame, "Cannot write to file. ");

@@ -5,6 +5,8 @@ import java.awt.*;
 public class Airport extends Figure {
     private String name, code;
     private double x, y;
+    private boolean highlighted = false;
+    private Scheduler  scheduler = new Scheduler();
 
     Airport(String name, String code, double x, double y) {
         super(x, y);
@@ -28,6 +30,14 @@ public class Airport extends Figure {
 
     public double getY() {
         return y;
+    }
+
+    public Scheduler getScheduler() {
+        return scheduler;
+    }
+
+    public boolean isHighlighted() {
+        return highlighted;
     }
 
     private void setCode(String code) {
@@ -60,6 +70,10 @@ public class Airport extends Figure {
         this.y = y;
     }
 
+    public void setHighlighted(boolean highlighted) {
+        this.highlighted = highlighted;
+    }
+
     @Override
     public boolean equals (Object other) {
         if (other == null)
@@ -75,9 +89,12 @@ public class Airport extends Figure {
     @Override
     void paint(Graphics g, int px, int py) {
         Color prevColor = g.getColor();
-        g.setColor(Color.DARK_GRAY);
+
+        if (!highlighted) g.setColor(Color.DARK_GRAY);
+        else g.setColor(Color.RED);
         g.drawString(code, px + 8, py - 8);
         g.fillRect(px - size / 2, py - size / 2, size, size);
+
         g.setColor(prevColor);
     }
 }
