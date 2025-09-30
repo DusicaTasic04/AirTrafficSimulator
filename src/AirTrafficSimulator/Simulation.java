@@ -6,6 +6,7 @@ public class Simulation {
     private static final Simulation instance = new Simulation();
     MainFrame frame;
     HashMap<String, Airport> airports;
+    Clock clock;
 
     private Simulation() {
         airports = new HashMap<>();
@@ -13,6 +14,8 @@ public class Simulation {
 
     public void setFrame(MainFrame frame) {
         this.frame = frame;
+        clock = new Clock(frame);
+        new Thread(clock).start();
     }
 
     public void addAirport(Airport airport) {
@@ -34,7 +37,6 @@ public class Simulation {
             throw new IllegalArgumentException("Airport From and To cannot be same");
         }
         flight.getFrom().getScheduler().schedule(flight);
-        System.out.println("Real departure time: " + flight.getDepartureTimeDelayed());
     }
 
     public static Simulation getInstance() {

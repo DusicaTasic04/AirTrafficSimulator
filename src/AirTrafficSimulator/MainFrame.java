@@ -1,14 +1,15 @@
 package AirTrafficSimulator;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.Vector;
 
 public class MainFrame extends Frame {
     Label time = new Label();
     Panel centralPanel = new Panel();
     Controller controller = new Controller(this);
+
     private Panel checkboxesPanel;
     private ScrollPane scrollPane;
 
@@ -39,7 +40,15 @@ public class MainFrame extends Frame {
         setMenuBar();
         setScene();
         setCheckboxes();
+
+        time.setText("00:00");
+        add(time, BorderLayout.SOUTH);
     }
+
+    private MenuItem openFlight, saveFlight, showFlight, openAirport, saveAirport;
+    private MenuItem newFlight, newAirport;
+    private MenuItem startStopSimulation, resetSimulation;
+    private MenuItem startStopTimer, resetTimer, quit;
 
     private void setMenuBar() {
         Menu file = getFileMenu();
@@ -62,16 +71,16 @@ public class MainFrame extends Frame {
         Menu save = new Menu("Save");
         Menu show = new Menu("Show");
 
-        MenuItem openFlight =  new MenuItem("Flight");
+        openFlight =  new MenuItem("Flight");
         openFlight.addActionListener(e -> controller.importFlights());
-        MenuItem saveFlight =  new MenuItem("Flight");
+        saveFlight =  new MenuItem("Flight");
         saveFlight.addActionListener(e -> controller.exportFlights());
-        MenuItem showFlight =  new MenuItem("Flight");
+        showFlight =  new MenuItem("Flight");
         showFlight.addActionListener(e -> controller.showFlights());
 
-        MenuItem openAirport =  new MenuItem("Airport");
+        openAirport =  new MenuItem("Airport");
         openAirport.addActionListener(e -> controller.importAirports());
-        MenuItem saveAirport =  new MenuItem("Airport");
+        saveAirport =  new MenuItem("Airport");
         saveAirport.addActionListener(e -> controller.exportAirports());
 
         open.add(openFlight);
@@ -93,9 +102,9 @@ public class MainFrame extends Frame {
         Menu newItem = new Menu("New");
         edit.add(newItem);
 
-        MenuItem newFlight = new MenuItem("Flight");
+        newFlight = new MenuItem("Flight");
         newFlight.addActionListener(e -> controller.addFlight());
-        MenuItem newAirport = new MenuItem("Airport");
+        newAirport = new MenuItem("Airport");
         newAirport.addActionListener(e -> controller.addAirport());
 
         newItem.add(newFlight);
@@ -106,11 +115,13 @@ public class MainFrame extends Frame {
 
     private Menu getSimulationMenu() {
         Menu simulation = new Menu("Simulation");
-        MenuItem startStop = new MenuItem("Start/Stop");
-        MenuItem reset = new MenuItem("Reset");
+        startStopSimulation = new MenuItem("Start/Stop");
+        startStopSimulation.addActionListener(e -> controller.startStopSimulation());
+        resetSimulation = new MenuItem("Reset");
+        resetSimulation.addActionListener(e -> controller.resetSimulation());
 
-        simulation.add(startStop);
-        simulation.add(reset);
+        simulation.add(startStopSimulation);
+        simulation.add(resetSimulation);
 
         return simulation;
     }
@@ -119,16 +130,16 @@ public class MainFrame extends Frame {
         Menu settings = new Menu("Settings");
 
         Menu timer =  new Menu("Timer");
-        MenuItem startStop = new MenuItem("Start/Stop");
-        MenuItem reset = new MenuItem("Reset");
-        MenuItem quit = new MenuItem("Quit");
+        startStopTimer = new MenuItem("Start/Stop");
+        resetTimer = new MenuItem("Reset");
+        quit = new MenuItem("Quit");
 
-        reset.addActionListener(e -> controller.resetTimer());
-        startStop.addActionListener(e -> controller.switchTimer());
+        resetTimer.addActionListener(e -> controller.resetTimer());
+        startStopTimer.addActionListener(e -> controller.switchTimer());
         quit.addActionListener(e -> controller.quit() );
 
-        timer.add(startStop);
-        timer.add(reset);
+        timer.add(startStopTimer);
+        timer.add(resetTimer);
         settings.add(timer);
         settings.add(quit);
 
@@ -174,6 +185,39 @@ public class MainFrame extends Frame {
 
         checkboxesPanel.revalidate();
         checkboxesPanel.repaint();
+    }
+
+    public void revalidateTimeLabel(Time t) {
+        time.setText(t.toString());
+        time.revalidate();
+    }
+
+    public void disableMenuBar() { // disable while simulation is running
+        openFlight.setEnabled(false);
+        saveFlight.setEnabled(false);
+        showFlight.setEnabled(false);
+        openAirport.setEnabled(false);
+        saveAirport.setEnabled(false);
+
+        newFlight.setEnabled(false);
+        newAirport.setEnabled(false);
+
+        startStopTimer.setEnabled(false);
+        resetTimer.setEnabled(false);
+    }
+
+    public void enableMenuBar() {
+        openFlight.setEnabled(true);
+        saveFlight.setEnabled(true);
+        showFlight.setEnabled(true);
+        openAirport.setEnabled(true);
+        saveAirport.setEnabled(true);
+
+        newFlight.setEnabled(true);
+        newAirport.setEnabled(true);
+
+        startStopTimer.setEnabled(true);
+        resetTimer.setEnabled(true);
     }
 
     public static void main(String[] args) {

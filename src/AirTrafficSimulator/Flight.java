@@ -8,7 +8,7 @@ public class Flight extends Figure {
     private int duration;
 
     public Flight(Airport from, Airport to, Time departureTime, int duration) {
-        super(from.getX(), from.getY());
+        super(from.getX(), from.getY(), false);
         setFrom(from);
         setTo(to);
         setDepartureTime(departureTime);
@@ -70,14 +70,15 @@ public class Flight extends Figure {
 
     @Override
     public String toString() {
-        return from.getName() + " -> " + to.getName() + " | " + departureTimeDelayed.toString() + " | " + duration + " min ";
+        return from.getName() + " -> " + to.getName() + " | " + departureTime.toString() + " | " + duration + " min ";
     }
 
-    @Override
-    void paint(Graphics g, int px, int py) {
+    //@Override
+    void paint(Graphics g, int px, int py, int w, int h) {
+        g.translate(w, h);
         Color prevColor = g.getColor();
         g.setColor(new Color(0, 60, 125));
-        g.fillOval(px - size/2, py - size/2, size, size);
+        g.fillOval(px, py, size, size);
         g.setColor(prevColor);
     }
 }

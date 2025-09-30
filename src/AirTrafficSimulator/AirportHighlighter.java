@@ -12,7 +12,7 @@ public class AirportHighlighter implements Runnable {
     public void toggle(Airport airport) {
         if (airport == selectedAirport) {
             airport.setHighlighted(false);
-            scene.repaint();
+            paintAirport(airport);
             selectedAirport = null;
             scene.getParentFrame().controller.userTimer.go();
             return;
@@ -20,6 +20,7 @@ public class AirportHighlighter implements Runnable {
 
         if (selectedAirport != null) {
             selectedAirport.setHighlighted(false);
+            paintAirport(selectedAirport);
         }
 
         scene.getParentFrame().controller.userTimer.pause();
@@ -33,7 +34,7 @@ public class AirportHighlighter implements Runnable {
             while (running) {
                 if (selectedAirport != null) {
                     selectedAirport.setHighlighted(!selectedAirport.isHighlighted());
-                    scene.repaint();
+                    paintAirport(selectedAirport);
                 }
                 //noinspection BusyWait
                 Thread.sleep(500);
@@ -45,5 +46,11 @@ public class AirportHighlighter implements Runnable {
     public void stopFlicker() {
         running = false;
         if (selectedAirport != null) this.selectedAirport.setHighlighted(false);
+    }
+
+    private void paintAirport(Airport a) {
+        int px = (int) ((a.getX() / 90.0) * (scene.getWidth() / 2.0) + scene.getWidth() / 2.0);
+        int py = (int) (scene.getHeight() / 2.0 - (a.getY() / 90.0) * (scene.getHeight() / 2.0));
+        a.paint(scene.getGraphics(), px, py, 0, 0);
     }
 }

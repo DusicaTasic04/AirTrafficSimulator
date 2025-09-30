@@ -7,9 +7,10 @@ public abstract class Figure {
     int size = 15;
     boolean visible = true;
 
-    Figure(double x, double y) {
+    Figure(double x, double y, boolean visible) {
         this.x = x;
         this.y = y;
+        this.visible = visible;
     }
 
     public double getX() {
@@ -44,5 +45,5 @@ public abstract class Figure {
         this.visible = visible;
     }
 
-    abstract void paint(Graphics g, int px, int py);
+    abstract void paint(Graphics g, int px, int py, int w, int h);
 }

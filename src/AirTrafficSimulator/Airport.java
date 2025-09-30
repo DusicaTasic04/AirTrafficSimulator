@@ -9,7 +9,7 @@ public class Airport extends Figure {
     private Scheduler  scheduler = new Scheduler();
 
     Airport(String name, String code, double x, double y) {
-        super(x, y);
+        super(x, y, true);
         setName(name);
         setCode(code);
         setX(x);
@@ -87,7 +87,7 @@ public class Airport extends Figure {
     }
 
     @Override
-    void paint(Graphics g, int px, int py) {
+    void paint(Graphics g, int px, int py, int w, int h) {
         Color prevColor = g.getColor();
 
         if (!highlighted) g.setColor(Color.DARK_GRAY);

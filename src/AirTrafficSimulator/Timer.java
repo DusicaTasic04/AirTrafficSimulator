@@ -6,7 +6,7 @@ public class Timer extends Thread {
     private final Time time;
     private boolean running;
     private final MainFrame mainFrame;
-    private final static int total = 10;
+    private final static int total = 60;
 
     Timer(MainFrame mainFrame) {
         this.mainFrame = mainFrame;

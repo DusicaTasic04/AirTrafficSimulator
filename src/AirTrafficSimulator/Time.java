@@ -60,9 +60,6 @@ public class Time {
             minute = 0;
             hour++;
         }
-        if (hour > 23) {
-            hour = 0;
-        }
     }
 
     void addMinutes(int minutes) {
@@ -71,6 +68,12 @@ public class Time {
             hour += minute / 60;
             minute %= 60;
         }
+    }
+
+    public static Time addMinutes(Time t1, int minutes) {
+        Time res = new Time(t1);
+        res.addMinutes(minutes);
+        return res;
     }
 
     void reset() {
@@ -84,6 +87,6 @@ public class Time {
     }
 
     public String toString() {
-        return String.format("%02d:%02d", hour, minute);
+        return String.format("%02d:%02d", hour % 24, minute);
     }
 }

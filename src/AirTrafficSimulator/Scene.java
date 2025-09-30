@@ -45,7 +45,7 @@ public class Scene extends Canvas {
         if (f.isVisible()) {
             int px = (int) ((f.getX() / 90.0) * (getWidth() / 2.0) + getWidth() / 2.0);
             int py = (int) (getHeight() / 2.0 - (f.getY() / 90.0) * (getHeight() / 2.0));
-            f.paint(g, px, py);
+            f.paint(g, px, py, 0, 0);
         }
     }
 
@@ -81,7 +81,6 @@ public class Scene extends Canvas {
 
             if (mouseX <= px + airport.getSize() / 2 && mouseX >= px - airport.getSize() / 2 &&
             mouseY <= py + airport.getSize() / 2 && mouseY >= py - airport.getSize() / 2) {
-                if (airport.isVisible()) { System.out.println(airport.getName());}
                 if (airport.isVisible()) {
                     airportHighlighter.toggle(airport);
                 }
@@ -89,10 +88,4 @@ public class Scene extends Canvas {
             }
         }
     }
-
-    @Override
-    public void update(Graphics g) {
-        paint(g);
-    }
-
 }

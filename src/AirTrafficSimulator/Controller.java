@@ -76,6 +76,25 @@ public class Controller {
         mainFrame.scene.repaint();
     }
 
+    public void startStopSimulation() {
+        Clock c = Simulation.getInstance().clock;
+        if (c.isOn()) {
+            c.pause();
+            userTimer.go();
+            mainFrame.enableMenuBar();
+        }
+        else {
+            c.go();
+            userTimer.pause();
+            mainFrame.disableMenuBar();
+        }
+
+    }
+
+    public void resetSimulation() {
+        Simulation.getInstance().clock.reset();
+    }
+
     public void switchTimer() {
         if (userTimer.isRunning()) {
             userTimer.pause();
@@ -92,5 +111,6 @@ public class Controller {
         mainFrame.dispose();
         userTimer.interrupt();
         mainFrame.scene.airportHighlighter.stopFlicker();
+        Simulation.getInstance().clock.turnOff();
     }
 }
