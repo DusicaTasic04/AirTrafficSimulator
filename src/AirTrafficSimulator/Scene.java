@@ -50,7 +50,7 @@ public class Scene extends Canvas {
         if (a.isVisible()) {
             int px = (int) ((a.getX() / 90.0) * (getWidth() / 2.0) + getWidth() / 2.0);
             int py = (int) (getHeight() / 2.0 - (a.getY() / 90.0) * (getHeight() / 2.0));
-            a.paint(g, px, py, 0, 0);
+            a.paint(g, px, py);
         }
     }
 
@@ -70,7 +70,7 @@ public class Scene extends Canvas {
         int px = (int)(x0 + progress * (x1 - x0));
         int py = (int)(y0 + progress * (y1 - y0));
 
-        f.paint(g, px, py, getWidth() / 2, getHeight() / 2);
+        f.paint(g, px, py);
     }
 
     private void drawLines(Graphics g) {

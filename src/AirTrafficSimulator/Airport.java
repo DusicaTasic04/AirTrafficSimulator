@@ -87,7 +87,7 @@ public class Airport extends Figure {
     }
 
     @Override
-    void paint(Graphics g, int px, int py, int w, int h) {
+    void paint(Graphics g, int px, int py) {
         Color prevColor = g.getColor();
 
         if (!highlighted) g.setColor(Color.DARK_GRAY);

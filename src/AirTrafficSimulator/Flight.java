@@ -74,8 +74,7 @@ public class Flight extends Figure {
     }
 
     //@Override
-    void paint(Graphics g, int px, int py, int w, int h) {
-        //g.translate(w, h);
+    void paint(Graphics g, int px, int py) {
         Color prevColor = g.getColor();
         g.setColor(new Color(0, 60, 125));
         g.fillOval(px - size / 2, py - size / 2, size, size);

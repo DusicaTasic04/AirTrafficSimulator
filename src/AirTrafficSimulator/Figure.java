@@ -45,5 +45,5 @@ public abstract class Figure {
         this.visible = visible;
     }
 
-    abstract void paint(Graphics g, int px, int py, int w, int h);
+    abstract void paint(Graphics g, int px, int py);
 }

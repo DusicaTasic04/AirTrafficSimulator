@@ -51,6 +51,6 @@ public class AirportHighlighter implements Runnable {
     private void paintAirport(Airport a) {
         int px = (int) ((a.getX() / 90.0) * (scene.getWidth() / 2.0) + scene.getWidth() / 2.0);
         int py = (int) (scene.getHeight() / 2.0 - (a.getY() / 90.0) * (scene.getHeight() / 2.0));
-        a.paint(scene.getGraphics(), px, py, 0, 0);
+        a.paint(scene.getGraphics(), px, py);
     }
 }
