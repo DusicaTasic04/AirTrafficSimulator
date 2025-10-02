@@ -37,16 +37,40 @@ public class Scene extends Canvas {
 
     private void drawFigures(Graphics g) {
         for (Airport airport : Simulation.getInstance().airports.values()) {
-            drawFigure(g, airport);
+            drawAirport(g, airport);
+        }
+        for (Airport airport : Simulation.getInstance().airports.values()) {
+            for (Flight flight : airport.getScheduler()) {
+                drawFlight(g, flight);
+            }
         }
     }
 
-    private void drawFigure(Graphics g, Figure f) {
-        if (f.isVisible()) {
-            int px = (int) ((f.getX() / 90.0) * (getWidth() / 2.0) + getWidth() / 2.0);
-            int py = (int) (getHeight() / 2.0 - (f.getY() / 90.0) * (getHeight() / 2.0));
-            f.paint(g, px, py, 0, 0);
+    private void drawAirport(Graphics g, Airport a) {
+        if (a.isVisible()) {
+            int px = (int) ((a.getX() / 90.0) * (getWidth() / 2.0) + getWidth() / 2.0);
+            int py = (int) (getHeight() / 2.0 - (a.getY() / 90.0) * (getHeight() / 2.0));
+            a.paint(g, px, py, 0, 0);
         }
+    }
+
+    private void drawFlight(Graphics g, Flight f) {
+        if (!f.isVisible()) return;
+
+        double x0 = ((f.getFrom().getX() / 90.0) * (getWidth() / 2.0) + getWidth() / 2.0);
+        double y0 = (getHeight() / 2.0 - (f.getFrom().getY() / 90.0) * (getHeight() / 2.0));
+
+        double x1 = ((f.getTo().getX() / 90.0) * (getWidth() / 2.0) + getWidth() / 2.0);
+        double y1 = (getHeight() / 2.0 - (f.getTo().getY() / 90.0) * (getHeight() / 2.0));
+
+        double progress = (double)(
+                Simulation.getInstance().clock.getSimulationTime().minutesDifference(f.getDepartureTimeDelayed())
+        ) / f.getDuration();
+
+        int px = (int)(x0 + progress * (x1 - x0));
+        int py = (int)(y0 + progress * (y1 - y0));
+
+        f.paint(g, px, py, getWidth() / 2, getHeight() / 2);
     }
 
     private void drawLines(Graphics g) {

@@ -75,10 +75,10 @@ public class Flight extends Figure {
 
     //@Override
     void paint(Graphics g, int px, int py, int w, int h) {
-        g.translate(w, h);
+        //g.translate(w, h);
         Color prevColor = g.getColor();
         g.setColor(new Color(0, 60, 125));
-        g.fillOval(px, py, size, size);
+        g.fillOval(px - size / 2, py - size / 2, size, size);
         g.setColor(prevColor);
     }
 }
